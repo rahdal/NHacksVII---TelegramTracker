@@ -8,6 +8,8 @@ import plotly.io as pio
 from werkzeug.utils import secure_filename
 import os
 
+import dataCalculator
+
 
 pio.templates.default = 'plotly_dark'
 UPLOAD_FOLDER = 'JSON/'
@@ -31,24 +33,24 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-            filename = 'result.json'
+            token = dataCalculator.generate_token()
+            filename = f'result-{token}.json'
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-      
-    return redirect(url_for('result'))
 
-@app.route("/result")
-def result():
-    
-    import dataCalculator
+            return redirect(url_for('result', token=token))
+
+    return redirect(url_for('invalid'))
+
+@app.route("/result/<token>")
+def result(token: str):
+    dataCalculator.main(token)
+
+    CommonPairings = pd.read_csv(f'csvFiles/{token}/CommonPairings.csv')
+    DailyActivity = pd.read_csv(f'csvFiles/{token}/DailyActivity.csv')
+    HourlyActivity = pd.read_csv(f'csvFiles/{token}/HourlyActivity.csv')
+    textActivity = pd.read_csv(f'csvFiles/{token}/UserData.csv')
 
 
-    CommonPairings = pd.read_csv('csvFiles/CommonPairings.csv')
-    DailyActivity = pd.read_csv('csvFiles/DailyActivity.csv')
-    HourlyActivity = pd.read_csv('csvFiles/HourlyActivity.csv')
-    textActivity = pd.read_csv('csvFiles/UserData.csv')
-
-
-    
     pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400,color='Messages')
     mactivity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:DailyActivity.shape[1]], width=1600, height=400)
     hactivity = px.line(HourlyActivity, x = 'Hour', y = HourlyActivity.columns[2:HourlyActivity.shape[1]], width=1600, height=400)
