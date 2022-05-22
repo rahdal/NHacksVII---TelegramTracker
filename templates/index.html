@@ -8,17 +8,25 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="../static/style.css">
+        <link rel="preload" href="../static/Fonts/SpaceGrotesk-Bold.woff2" as="font" type="font/woff2" crossorigin>
     </head>
+
     <body>
-        <h1>Telegram Stats</h1>
+        <h1>TELEGRAM STATS</h1>
         <div id='chart' class='chart'”></div>
+        <div id='chart1' class='chart1'”></div>
+
         <script src="" async defer></script>
     </body>
 
     <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
     <script type='text/javascript'>
         var graphs = {{graphJSON | safe}};
+        var graphs1 = {{graphJSON1 | safe}};
+
         Plotly.plot('chart', graphs,{});
+        Plotly.plot('chart1', graphs1,{});
+
     </script>
 
 

@@ -1,0 +1,27 @@
+* {
+    font-family: 'Space Grotesk';
+}
+
+body {
+    background: #111111;
+    padding-left: 20vh;
+}
+
+h1 {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 400%;
+    padding-right: 20vh
+}
+
+.chart {
+    size: 50%;
+}
+
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('Fonts/SpaceGrotesk-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
