@@ -225,7 +225,7 @@ def main(token: str):
     daily_activity_by_month.index.name = 'Month'
 
     daily_activity.to_csv(f'mysite/csvFiles/{token}/DailyActivity.csv')
-    daily_activity_by_month.to_csv(f'mysite/csvFiles/{token}/DailyActivityByMonth.csv')
+    daily_activity_by_month.to_csv(f'mysite/csvFiles/{token}/MonthlyActivity.csv')
     pbar.update()
 
 
