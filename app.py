@@ -16,10 +16,16 @@ def index():
     
     CommonPairings = pd.read_csv('CommonPairings.csv')
     DailyActivity = pd.read_csv('DailyActivity.csv')
-    pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400)
-    activity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:DailyActivity.shape[1]], width=1600, height=400)
-    
-    graphJSON = json.dumps(pairings, cls=plotly.utils.PlotlyJSONEncoder)
-    graphJSON1 = json.dumps(activity, cls=plotly.utils.PlotlyJSONEncoder)
+    HourlyActivity = pd.read_csv('HourlyActivity.csv')
 
-    return render_template('index.html', graphJSON = graphJSON, graphJSON1 = graphJSON1)
+    
+    pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400)
+    mactivity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:DailyActivity.shape[1]], width=1600, height=400)
+    hactivity = px.line(HourlyActivity, x = 'Hour', y = HourlyActivity.columns[2:HourlyActivity.shape[1]], width=1600, height=400)
+
+    graphJSON = json.dumps(pairings, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON1 = json.dumps(mactivity, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON2 = json.dumps(hactivity, cls=plotly.utils.PlotlyJSONEncoder)
+
+
+    return render_template('index.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2)
