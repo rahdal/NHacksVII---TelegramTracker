@@ -156,7 +156,7 @@ with open(result_filepath, "r", encoding="utf-8") as infile:
 
 
 #Load output.csv into df
-with open('output.csv', encoding='utf8') as input_file:
+with open('csvFiles/output.csv', encoding='utf8') as input_file:
     df = pd.read_csv(input_file)
 df[['sender']] = df[['sender']].fillna('Deleted Account')
 
