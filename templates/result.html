@@ -15,13 +15,27 @@
 
     <body>
         <h1 id = "grad">TelegramStats</h1>
-        <p>Upload a JSON file</p>
-        <form method="GET" action = "/result" enctype ="multipart/form-data">
-            <input type="file" name="file">
-            <button>Submit</button>
-        </form>
+        <div id='chart1' class='chart1'”></div>
+        <div id='chart2' class='chart2'”></div>
+        <div id='chart' class='chart'”></div>
+
+
+        <script src="" async defer></script>
     </body>
 
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script type='text/javascript'>
+        var graphs = {{graphJSON | safe}};
+        var graphs1 = {{graphJSON1 | safe}};
+        var graphs2 = {{graphJSON2 | safe}};
+
+
+        Plotly.plot('chart', graphs,{});
+        Plotly.plot('chart1', graphs1,{});
+        Plotly.plot('chart2', graphs2,{});
+
+
+    </script>
 
 
 </html>

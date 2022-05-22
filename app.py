@@ -11,8 +11,15 @@ pio.templates.default = 'plotly_dark'
 app = Flask(__name__)
 app.static_folder = 'static'
 
-@app.route("/")
+
+@app.route("/", methods=['GET', 'POST'])
 def index():
+    return render_template('index.html')
+
+
+
+@app.route("/result")
+def result():
     
     CommonPairings = pd.read_csv('CommonPairings.csv')
     DailyActivity = pd.read_csv('DailyActivity.csv')
@@ -28,4 +35,4 @@ def index():
     graphJSON2 = json.dumps(hactivity, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-    return render_template('index.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2)
+    return render_template('result.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2)
