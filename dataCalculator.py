@@ -13,6 +13,9 @@ import pandas as pd
 from emoji import UNICODE_EMOJI
 import re
 
+pbar = tqdm(total=8)
+
+
 columns = ['msg_id',
             'sender',
             'sender_id',
@@ -56,6 +59,7 @@ num_messages = len(telegram_export['messages'])
 print('Found ' + str(num_messages) + ' messages in chat.')
 
 
+pbar.update()
 output = output_filepath
 with open(result_filepath, mode='r', encoding='UTF-8') as infile:
     with open(output, mode='w', encoding='UTF-8') as outfile:
@@ -152,8 +156,8 @@ with open(result_filepath, mode='r', encoding='UTF-8') as infile:
             }
             
             writer.writerow(row)
+pbar.update()
 
-pbar = tqdm(total=6)
 
 #Load output.csv into df
 with open('csvFiles/output.csv', encoding='UTF-8', mode='r') as input_file:
@@ -163,6 +167,7 @@ users = df['sender'].unique()
 # Set index to message id
 msg_df = df.set_index('msg_id')
 pbar.update()
+
 
 ### User messages ###
 # Create a new column with the sender of what each message is replying to
