@@ -1,0 +1,47 @@
+* {
+    font-family: 'Manrope', sans-serif;
+}
+
+body {
+    background: #111111;
+    padding-left: 20vh;
+}
+
+h1 {
+    color: whitesmoke;
+    text-align: center;
+    font-size: 400%;
+    padding-right: 20vh;
+    padding-top: 20vh;
+    margin-bottom: 0em
+}
+
+p {
+    color: whitesmoke;
+    text-align: center;
+    padding-right: 20vh;
+    padding-top: -10vh;
+    margin-top: 0em
+}
+
+form {
+    text-align: center;
+    color: white;
+    padding-right: 8vw;
+    padding-top: 5vh;
+}
+
+.chart {
+    size: 50%;
+}
+
+#grad {
+    background: #C6FFDD;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #f7797d, #FBD786, #C6FFDD);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #f7797d, #C6FFDD);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

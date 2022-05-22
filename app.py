@@ -31,7 +31,7 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            filename = 'result.json'
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
       
     return redirect(url_for('result'))

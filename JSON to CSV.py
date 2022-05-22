@@ -30,7 +30,7 @@ mention_types = ["mention",
 
 
 #Initial json file (always named result.json)
-result_filepath = "result.json"
+result_filepath = "JSON/result.json"
 
 #Create new csv file for output
 output_filepath = "output.csv"
