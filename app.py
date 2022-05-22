@@ -55,7 +55,7 @@ def result(token: str):
 
 
     pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400,color='Messages')
-    mactivity = px.bar(MonthlyActivity, x = 'Month', y = MonthlyActivity.columns[2:], width=1600, height=400)
+    mactivity = px.line(MonthlyActivity, x = 'Month', y = MonthlyActivity.columns[2:], width=1600, height=400)
     dactivity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:], width=1600, height=400)
     hactivity = px.line(HourlyActivity, x = 'Hour', y = HourlyActivity.columns[2:], width=1600, height=400)
     tactivty = px.bar(textActivity, x = 'User', y = textActivity.columns[2:], width=1600, height=400)
