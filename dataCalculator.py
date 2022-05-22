@@ -44,7 +44,9 @@ mention_types = ['mention',
                  'mention_name']
 
 def main(token: str):
+    print('Handling data for token:', token)
     if os.path.isdir(f'csvFiles/{token}'):
+        print('Data already exists for this token. Skipping.')
         return
 
     pbar = tqdm(total=8)
