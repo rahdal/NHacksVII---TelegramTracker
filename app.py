@@ -39,9 +39,12 @@ def upload():
 @app.route("/result")
 def result():
     
-    CommonPairings = pd.read_csv('CommonPairings.csv')
-    DailyActivity = pd.read_csv('DailyActivity.csv')
-    HourlyActivity = pd.read_csv('HourlyActivity.csv')
+    import dataCalculator
+
+
+    CommonPairings = pd.read_csv('csvFiles/CommonPairings.csv')
+    DailyActivity = pd.read_csv('csvFiles/DailyActivity.csv')
+    HourlyActivity = pd.read_csv('csvFiles/HourlyActivity.csv')
 
     
     pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400)
