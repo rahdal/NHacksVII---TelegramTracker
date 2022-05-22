@@ -45,17 +45,17 @@ mention_types = ['mention',
 
 def main(token: str):
     print('Handling data for token:', token)
-    if os.path.isdir(f'csvFiles/{token}'):
+    if os.path.isdir(f'mysite/csvFiles/{token}'):
         print('Data already exists for this token. Skipping.')
         return
 
     pbar = tqdm(total=8)
 
     #Initial json file (always named result.json)
-    result_filepath = f'JSON/result-{token}.json'
+    result_filepath = f'mysite/JSON/result-{token}.json'
 
     #Create new csv file for output
-    output_filepath = f'csvFiles/{token}/output.csv'
+    output_filepath = f'mysite/csvFiles/{token}/output.csv'
 
     #Load the input file
     with open(result_filepath, encoding='utf8') as input_file:
@@ -78,7 +78,7 @@ def main(token: str):
           open(output, mode='w', encoding='UTF-8') as outfile):
         writer = csv.DictWriter(outfile, columns, dialect='unix', quoting=csv.QUOTE_NONNUMERIC)
         writer.writeheader()
-        
+
         contents = infile.read()
 
         jdata = json.loads(contents)
@@ -88,17 +88,17 @@ def main(token: str):
         for message in tqdm(obj['messages']):
             if message['type'] != 'message':
                 continue
-            
+
             msg_id = message['id']
             sender = message['from']
             sender_id = message['from_id']
             reply_to_msg_id = message['reply_to_message_id'] if 'reply_to_message_id' in message else -1
             date = message['date'].replace('T', ' ')
             dt = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
-            
+
             msg_content = message['text']
             msg_type = 'text'
-            
+
             if 'media_type' in message:
                 msg_type = message['media_type']
                 if message['media_type'] == 'sticker':
@@ -111,7 +111,7 @@ def main(token: str):
             elif 'file' in message:
                 msg_type = 'file'
                 msg_content = message['file']
-            
+
             if 'photo' in message:
                 msg_type = 'photo'
                 msg_content = message['photo']
@@ -122,13 +122,13 @@ def main(token: str):
                 msg_type = 'location'
                 loc = message['location_information']
                 msg_content = str(loc['latitude']) + ',' + str(loc['longitude'])
-            
+
             has_mention = 0
             has_email = 0
             has_phone = 0
             has_hashtag = 0
             is_bot_command = 0
-            
+
             if type(msg_content) == list:
                 txt_content = ''
                 for part in msg_content:
@@ -147,12 +147,12 @@ def main(token: str):
                             has_hashtag = 1
                         elif part['type'] == 'bot_command':
                             is_bot_command = 1
-                        
+
                         txt_content += part['text']
                 msg_content = txt_content
-            
+
             msg_content = msg_content.replace('\n', ' ')
-            
+
             row = {
                 'msg_id'          : msg_id,
                 'sender'          : sender,
@@ -167,13 +167,13 @@ def main(token: str):
                 'has_hashtag'     : has_hashtag,
                 'is_bot_command'  : is_bot_command,
             }
-            
+
             writer.writerow(row)
     pbar.update()
 
 
     #Load output.csv into df
-    with open(f'csvFiles/{token}/output.csv', encoding='UTF-8', mode='r') as input_file:
+    with open(f'mysite/csvFiles/{token}/output.csv', encoding='UTF-8', mode='r') as input_file:
         df = pd.read_csv(input_file)
     df[['sender']] = df[['sender']].fillna('Deleted Account')
     users = df['sender'].unique()
@@ -197,7 +197,7 @@ def main(token: str):
     reduced = common_pairings.reset_index()[:10]
     reduced['Pair'] = reduced['sender'] + ' -> ' + reduced['reply_to_name']
     reduced = reduced.drop(['sender', 'reply_to_name'], axis=1).rename(columns={'reply_to_msg_id': 'Messages'}, )
-    reduced.to_csv(f'csvFiles/{token}/CommonPairings.csv', index=False)
+    reduced.to_csv(f'mysite/csvFiles/{token}/CommonPairings.csv', index=False)
     pbar.update()
 
 
@@ -224,8 +224,8 @@ def main(token: str):
     daily_activity.index.name = 'Date'
     daily_activity_by_month.index.name = 'Month'
 
-    daily_activity.to_csv(f'csvFiles/{token}/DailyActivity.csv')
-    daily_activity_by_month.to_csv(f'csvFiles/{token}/DailyActivityByMonth.csv')
+    daily_activity.to_csv(f'mysite/csvFiles/{token}/DailyActivity.csv')
+    daily_activity_by_month.to_csv(f'mysite/csvFiles/{token}/DailyActivityByMonth.csv')
     pbar.update()
 
 
@@ -244,7 +244,7 @@ def main(token: str):
     hourly_activity = hourly_activity[['all'] + list(users)]
 
     hourly_activity.index.name = 'Hour'
-    hourly_activity.to_csv(f'csvFiles/{token}/HourlyActivity.csv')
+    hourly_activity.to_csv(f'mysite/csvFiles/{token}/HourlyActivity.csv')
     pbar.update()
 
 
@@ -268,6 +268,6 @@ def main(token: str):
 
 
     user_data.index.name = 'User'
-    user_data.to_csv(f'csvFiles/{token}/UserData.csv')
+    user_data.to_csv(f'mysite/csvFiles/{token}/UserData.csv')
     pbar.update()
     pbar.close()

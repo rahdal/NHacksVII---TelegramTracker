@@ -7,12 +7,14 @@ import plotly.graph_objects as go
 import plotly.io as pio
 from werkzeug.utils import secure_filename
 import os
+import shutil
 
 import dataCalculator
 
 
 pio.templates.default = 'plotly_dark'
-UPLOAD_FOLDER = 'JSON/'
+
+UPLOAD_FOLDER = os.path.join('mysite', 'JSON')
 ALLOWED_EXTENSIONS = {'json'}
 
 def allowed_file(filename):
@@ -45,10 +47,10 @@ def upload():
 def result(token: str):
     dataCalculator.main(token)
 
-    CommonPairings = pd.read_csv(f'csvFiles/{token}/CommonPairings.csv')
-    DailyActivity = pd.read_csv(f'csvFiles/{token}/DailyActivity.csv')
-    HourlyActivity = pd.read_csv(f'csvFiles/{token}/HourlyActivity.csv')
-    textActivity = pd.read_csv(f'csvFiles/{token}/UserData.csv')
+    CommonPairings = pd.read_csv(f'mysite/csvFiles/{token}/CommonPairings.csv')
+    DailyActivity = pd.read_csv(f'mysite/csvFiles/{token}/DailyActivity.csv')
+    HourlyActivity = pd.read_csv(f'mysite/csvFiles/{token}/HourlyActivity.csv')
+    textActivity = pd.read_csv(f'mysite/csvFiles/{token}/UserData.csv')
 
 
     pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400,color='Messages')
@@ -61,6 +63,7 @@ def result(token: str):
     graphJSON2 = json.dumps(hactivity, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON3 = json.dumps(tactivty, cls=plotly.utils.PlotlyJSONEncoder)
 
-
+    os.remove(f'mysite/JSON/result-{token}.json')
+    shutil.rmtree(f'mysite/csvFiles/{token}/')
 
     return render_template('result.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2,graphJSON3 = graphJSON3)
