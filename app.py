@@ -1,22 +1,40 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request ,url_for
 import pandas as pd
 import json
 import plotly
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.io as pio
+from werkzeug.utils import secure_filename
+import os
+
 
 pio.templates.default = 'plotly_dark'
+UPLOAD_FOLDER = 'JSON/'
+ALLOWED_EXTENSIONS = {'json'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.static_folder = 'static'
 
 
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def index():
     return render_template('index.html')
 
-
+@app.route('/upload', methods = ['GET', 'POST'])
+def upload():
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      
+    return redirect(url_for('result'))
 
 @app.route("/result")
 def result():
