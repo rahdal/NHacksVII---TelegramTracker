@@ -15,9 +15,11 @@ app.static_folder = 'static'
 def index():
     
     CommonPairings = pd.read_csv('CommonPairings.csv')
+    DailyActivity = pd.read_csv('DailyActivity.csv')
     pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400)
+    activity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:DailyActivity.shape[1]], width=1600, height=400)
     
     graphJSON = json.dumps(pairings, cls=plotly.utils.PlotlyJSONEncoder)
-    graphJSON1 = json.dumps(pairings, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON1 = json.dumps(activity, cls=plotly.utils.PlotlyJSONEncoder)
 
     return render_template('index.html', graphJSON = graphJSON, graphJSON1 = graphJSON1)
