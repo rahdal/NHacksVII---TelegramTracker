@@ -1,5 +1,3 @@
-import functools
-import sys
 import csv
 import json
 from datetime import datetime
@@ -12,7 +10,6 @@ from functools import partial
 from datetime import date
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from emoji import UNICODE_EMOJI
 import re
 
