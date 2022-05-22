@@ -14,9 +14,14 @@
     </head>
 
     <body>
-        <h1 id = "grad">TelegramStats</h1>
+        <h1 id= "grad"><a href="/">TelegramStats</a></h1>
+        <h2>Messages by day</h2>
         <div id='chart1' class='chart1'”></div>
+        <h2>Messages by hour</h2>
         <div id='chart2' class='chart2'”></div>
+        <h2>Typing Style</h2>
+        <div id='chart3' class='chart3'”></div>
+        <h2>Most common reply pairs</h2>
         <div id='chart' class='chart'”></div>
 
 
@@ -28,12 +33,12 @@
         var graphs = {{graphJSON | safe}};
         var graphs1 = {{graphJSON1 | safe}};
         var graphs2 = {{graphJSON2 | safe}};
-
+        var graphs3 = {{graphJSON3 | safe}};
 
         Plotly.plot('chart', graphs,{});
         Plotly.plot('chart1', graphs1,{});
         Plotly.plot('chart2', graphs2,{});
-
+        Plotly.plot('chart3', graphs3,{});
 
     </script>
 

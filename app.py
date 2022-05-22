@@ -45,15 +45,20 @@ def result():
     CommonPairings = pd.read_csv('csvFiles/CommonPairings.csv')
     DailyActivity = pd.read_csv('csvFiles/DailyActivity.csv')
     HourlyActivity = pd.read_csv('csvFiles/HourlyActivity.csv')
+    textActivity = pd.read_csv('csvFiles/UserData.csv')
+
 
     
-    pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400)
+    pairings = px.bar(CommonPairings, x = 'Messages', y = 'Pair', orientation = 'h', width=1600, height=400,color='Messages')
     mactivity = px.line(DailyActivity, x = 'Date', y = DailyActivity.columns[2:DailyActivity.shape[1]], width=1600, height=400)
     hactivity = px.line(HourlyActivity, x = 'Hour', y = HourlyActivity.columns[2:HourlyActivity.shape[1]], width=1600, height=400)
+    tactivty = px.bar(textActivity, x = 'User', y = textActivity.columns[2:textActivity.shape[1]], width=1600, height=400)
 
     graphJSON = json.dumps(pairings, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON1 = json.dumps(mactivity, cls=plotly.utils.PlotlyJSONEncoder)
     graphJSON2 = json.dumps(hactivity, cls=plotly.utils.PlotlyJSONEncoder)
+    graphJSON3 = json.dumps(tactivty, cls=plotly.utils.PlotlyJSONEncoder)
 
 
-    return render_template('result.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2)
+
+    return render_template('result.html', graphJSON = graphJSON, graphJSON1 = graphJSON1,graphJSON2 = graphJSON2,graphJSON3 = graphJSON3)
